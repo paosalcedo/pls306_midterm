@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
 
-	[SerializeField]GameObject crosshair;
 	GameObject enemy;
 	GameObject[] enemies;
 	public float offsetX = 0;
@@ -34,6 +33,7 @@ public class LevelLoader : MonoBehaviour {
 		GameObject levelHolder = new GameObject ("Level Holder");
 
 		int zPos = 0;
+		int yPos = 0;
 
 		//Read from level text files.
 		while (!sr.EndOfStream) {
@@ -48,8 +48,9 @@ public class LevelLoader : MonoBehaviour {
 
 					wall.transform.position = new Vector3 (
 						xPos + offsetX, 
-						zPos + offsetZ, 
-						0);
+						yPos,
+						zPos + offsetZ 
+						);
 				}
 			
 				//Instantiate player1
@@ -57,12 +58,16 @@ public class LevelLoader : MonoBehaviour {
 					GameObject player = Instantiate (Resources.Load ("Prefabs/Player") as GameObject);
 					player.transform.position = new Vector3 (
 						xPos + offsetX, 
-						zPos + offsetZ, 
-						0f);
+						yPos,
+						zPos + offsetZ
+						);
 				}
-			
-				//Instantiate ice tiles
-			
+
+				if (line [xPos] == '|') { 
+					yPos -= 4;
+					offsetZ += 17;
+				}
+
 			}
 			
 			zPos--;

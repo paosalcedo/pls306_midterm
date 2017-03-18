@@ -20,11 +20,11 @@ public class MouseLook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector2 md = new Vector2 (Input.GetAxisRaw ("Mouse X"), Input.GetAxisRaw ("Mouse Y"));
+		Vector2 mousePos = new Vector2 (Input.GetAxisRaw ("Mouse X"), Input.GetAxisRaw ("Mouse Y"));
 
-		md = Vector2.Scale (md, new Vector2 (sensitivity * smoothing, sensitivity * smoothing));
-		smoothV.x = Mathf.Lerp (smoothV.x, md.x, 1f / smoothing);
-		smoothV.y = Mathf.Lerp (smoothV.y, md.y, 1f / smoothing);
+		mousePos = Vector2.Scale (mousePos, new Vector2 (sensitivity * smoothing, sensitivity * smoothing));
+		smoothV.x = Mathf.Lerp (smoothV.x, mousePos.x, 1f / smoothing);
+		smoothV.y = Mathf.Lerp (smoothV.y, mousePos.y, 1f / smoothing);
 		mouseLook += smoothV;
 		mouseLook.y = Mathf.Clamp (mouseLook.y, -90f, 90f);
 

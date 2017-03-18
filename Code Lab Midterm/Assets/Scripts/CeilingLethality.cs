@@ -13,4 +13,11 @@ public class CeilingLethality : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	void OnCollisionEnter(Collision hit){
+		if(hit.gameObject.tag == "Player"){
+			GameObject gameManager = GameObject.Find("Game Manager");
+			gameManager.SendMessage ("PlayerIsDead");
+		}
+	}
 }
