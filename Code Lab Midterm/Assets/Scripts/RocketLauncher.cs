@@ -28,7 +28,7 @@ public class RocketLauncher : MonoBehaviour {
 		//3. we're ready to shoot our raycast
 
 		if (Physics.Raycast (ray, out rayHit, 100f)) {
-			if (rayHit.transform.tag == "Environment" && rayHit.rigidbody != null) {
+			if (rayHit.transform.tag == "Ground" && rayHit.rigidbody != null || rayHit.transform.tag == "Wall" && rayHit.rigidbody != null) {
 				Collider[] colliders = Physics.OverlapSphere (rayHit.point, explosionRadius);
 				foreach (Collider hit in colliders) {
 					Rigidbody rb = hit.GetComponent<Rigidbody> ();

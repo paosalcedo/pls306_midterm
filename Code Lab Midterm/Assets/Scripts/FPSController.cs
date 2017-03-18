@@ -5,9 +5,10 @@ using UnityEngine;
 public class FPSController : MonoBehaviour {
 
 	public float speed = 10.0f;
+	public float airControl = 0.1f;
 	public float gravity = 10.0f;
 	public float maxVelocityChange = 10.0f;
-	public bool canJump = true;
+//	public bool canJump = true;
 	public float jumpHeight = 2.0f;
 	private bool grounded = false;
 
@@ -42,40 +43,47 @@ public class FPSController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
+		MovePlayer ();
+//		**** ORIGINAL FPS CONTROLLER MOVE CODE***
+//		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
 //		if (grounded == true) {
 			// Calculate how fast we should be moving
-			Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			targetVelocity = transform.TransformDirection(targetVelocity);
-			targetVelocity *= speed;
+//			Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+//			targetVelocity = transform.TransformDirection(targetVelocity);
+//			targetVelocity *= speed;
 
 			// Apply a force that attempts to reach our target velocity
-			Vector3 velocity = rb.velocity;
-			Vector3 velocityChange = (targetVelocity - velocity);
-			velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-			velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-			velocityChange.y = 0;
-			rb.AddForce(velocityChange, ForceMode.VelocityChange);
+//			Vector3 velocity = rb.velocity;
+//			Vector3 velocityChange = (targetVelocity - velocity);
+//			velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+//			velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+//			velocityChange.y = 0;
+//			rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
 			// Jump
-			if (canJump && Input.GetButtonDown("Jump")) {
-				rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
-//				rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+//			if (canJump && Input.GetButtonDown("Jump")) {
+//				rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+////				rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+//			} 
 
-			} 
+//		}
+
+	
+	}
+
+
+	void OnCollisionStay (Collision coll) {
+		if (coll.collider.tag == "Ground") {
+			grounded = true;
 		}
+	}
 
-		// We apply gravity manually for more tuning control
-		rb.AddForce(new Vector3 (0, -gravity * rb.mass, 0));
 
+	void OnCollisionExit(Collision coll){
 		grounded = false;
-
-
 	}
 
-	void OnCollisionStay () {
-		grounded = true;    
-	}
+
 
 	float CalculateJumpVerticalSpeed () {
 		// From the jump height and gravity we deduce the upwards speed 
@@ -83,12 +91,38 @@ public class FPSController : MonoBehaviour {
 		return Mathf.Sqrt(2 * jumpHeight * gravity);
 	}
 
-	void Update () 
-	{
+	void MovePlayer(){
 
+		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		targetVelocity = transform.TransformDirection(targetVelocity);
+		targetVelocity *= speed;
 
+		// Apply a force that attempts to reach our target velocity
+		Vector3 velocity = rb.velocity;
+		Vector3 velocityChange = (targetVelocity - velocity);
+		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+		velocityChange.y = 0;
 
+		if (grounded == true) {
+			rb.AddForce (velocityChange, ForceMode.VelocityChange);
+		}
 
+		//tweaking air control.
+		if (grounded == false) {
+			rb.AddForce (velocityChange * 0.1f, ForceMode.VelocityChange);
+		}
+			
+		if (grounded == true && Input.GetButtonDown("Jump")) {
+			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+			//	rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+		}
+
+		// We apply gravity manually for more tuning control
+		rb.AddForce(new Vector3 (0, -gravity * rb.mass, 0));
+
+		//		grounded = false;
 
 	}
+		
 }
