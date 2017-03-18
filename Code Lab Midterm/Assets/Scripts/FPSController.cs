@@ -28,8 +28,13 @@ public class FPSController : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		rb = GetComponent<Rigidbody> ();
 
+// 		ORIGINAL SETTINGS
 		rb.freezeRotation = true;
 		rb.useGravity = false;
+
+//		MINE
+//		rb.freezeRotation = true;
+//		rb.useGravity = true;
 	}
 
 	
@@ -37,7 +42,8 @@ public class FPSController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		if (grounded == true || grounded == false) {
+		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
+//		if (grounded == true) {
 			// Calculate how fast we should be moving
 			Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			targetVelocity = transform.TransformDirection(targetVelocity);
@@ -52,7 +58,7 @@ public class FPSController : MonoBehaviour {
 			rb.AddForce(velocityChange, ForceMode.VelocityChange);
 
 			// Jump
-			if (canJump && Input.GetButton ("Jump")) {
+			if (canJump && Input.GetButtonDown("Jump")) {
 				rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
 			} 
 		}

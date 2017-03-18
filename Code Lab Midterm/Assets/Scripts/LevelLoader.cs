@@ -63,6 +63,17 @@ public class LevelLoader : MonoBehaviour {
 						);
 				}
 
+				//instantiate platforms
+				if (line [xPos] == 'i') { 
+					GameObject platform = Instantiate (Resources.Load ("Prefabs/Platform") as GameObject);
+					platform.transform.parent = levelHolder.transform;
+					platform.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos,
+						zPos + offsetZ
+					);
+				}
+
 				if (line [xPos] == '|') { 
 					yPos -= 4;
 					offsetZ += 17;
