@@ -38,7 +38,6 @@ public class RocketLauncher : MonoBehaviour {
 					if(rb.tag == "Player"){
 						Vector3 tossDir;
 						tossDir = rb.transform.position - rayHit.point;
-						Debug.Log ("player within explosion!");
 						rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);							
 					}
 				}

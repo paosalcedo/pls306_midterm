@@ -72,6 +72,35 @@ public class LevelLoader : MonoBehaviour {
 						yPos,
 						zPos + offsetZ
 					);
+				}
+
+				if (line [xPos] == '*') {
+					GameObject platform = Instantiate (Resources.Load ("Prefabs/Platform") as GameObject);
+					platform.transform.parent = levelHolder.transform;
+					platform.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos,
+						zPos + offsetZ
+					);
+
+					GameObject light = Instantiate (Resources.Load ("Prefabs/Light") as GameObject);
+					light.transform.parent = levelHolder.transform;
+					light.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos + 5f,
+						zPos + offsetZ
+					);
+				}
+
+				//Instantiate goal area.
+				if (line [xPos] == 'g') { 
+					GameObject goal = Instantiate (Resources.Load ("Prefabs/Goal") as GameObject);
+					goal.transform.parent = levelHolder.transform;
+					goal.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos,
+						zPos + offsetZ
+					);
 
 					GameObject light = Instantiate (Resources.Load ("Prefabs/Light") as GameObject);
 					light.transform.parent = levelHolder.transform;
@@ -99,14 +128,11 @@ public class LevelLoader : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+	}
 
-		//level changer. aka cheating
-		if(Input.GetKeyDown(KeyCode.P)){
-			levelNum++;
-			SceneManager.LoadScene("test");
-		}
-
-
+	void LoadNextLevel(){
+		levelNum++;
+		SceneManager.LoadScene("first");
 	}
 //
 //	void EndLevel ()

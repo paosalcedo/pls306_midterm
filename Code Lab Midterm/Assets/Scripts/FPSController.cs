@@ -7,10 +7,14 @@ public class FPSController : MonoBehaviour {
 	public float speed = 10.0f;
 	public float airControl = 0.1f;
 	public float gravity = 10.0f;
+	public float maxFallVelocity = 20f;
 	public float maxVelocityChange = 10.0f;
+	public float fallDeathHeight = 20f;
 //	public bool canJump = true;
 	public float jumpHeight = 2.0f;
 	private bool grounded = false;
+	float initHeight;
+
 
 	Rigidbody rb;
 	//
@@ -43,7 +47,12 @@ public class FPSController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
+//		Debug.Log (rb.velocity.y);
+//		CheckFallDeath ();
 		MovePlayer ();
+
+
+
 //		**** ORIGINAL FPS CONTROLLER MOVE CODE***
 //		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
 //		if (grounded == true) {
@@ -108,14 +117,16 @@ public class FPSController : MonoBehaviour {
 			rb.AddForce (velocityChange, ForceMode.VelocityChange);
 		}
 
-		//tweaking air control.
-		if (grounded == false) {
-			rb.AddForce (velocityChange * 0.1f, ForceMode.VelocityChange);
-		}
-			
+		//jump
 		if (grounded == true && Input.GetButtonDown("Jump")) {
 			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+			initHeight = rb.transform.position.y;
 			//	rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+		}
+
+		//tweaking air control when jumping.
+		if (grounded == false) {
+			rb.AddForce (velocityChange * airControl, ForceMode.VelocityChange);
 		}
 
 		// We apply gravity manually for more tuning control
@@ -123,6 +134,41 @@ public class FPSController : MonoBehaviour {
 
 		//		grounded = false;
 
+	}
+
+
+	void OnCollisionEnter(Collision coll){
+		//Kills player when jumping from too high.
+		if (coll.gameObject.tag == "Ground") {
+			float finalHeight;
+			finalHeight = transform.position.y;
+			Debug.Log (initHeight);
+			if ((initHeight - finalHeight) > fallDeathHeight) {
+				Destroy (gameObject);
+				Invoke ("DelayedRestart", 3f);
+				Debug.Log ("GAME OVER!");
+			}
+		}
+		//		if (rb.velocity.y < maxFallVelocity) {
+//			Destroy (gameObject);
+//			Invoke ("DelayedRestart", 3f);
+//			Debug.Log ("GAME OVER!");
+//		}	
+	}
+
+//	void CheckFallDeath(){
+//		//assign last velocity to a variable.
+//		if (rb.velocity.y < maxFallVelocity && grounded == true) {
+//			Destroy (gameObject);
+//			Invoke ("DelayedRestart", 3f);
+//			Debug.Log ("GAME OVER!");
+//		}	
+//	}
+
+
+	void DelayedRestart(){
+		GameObject gameManager = GameObject.Find("Game Manager");
+		gameManager.SendMessage ("PlayerIsDead");
 	}
 		
 }
