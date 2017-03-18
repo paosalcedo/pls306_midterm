@@ -60,6 +60,8 @@ public class FPSController : MonoBehaviour {
 			// Jump
 			if (canJump && Input.GetButtonDown("Jump")) {
 				rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
+//				rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+
 			} 
 		}
 

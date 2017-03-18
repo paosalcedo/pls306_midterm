@@ -72,6 +72,14 @@ public class LevelLoader : MonoBehaviour {
 						yPos,
 						zPos + offsetZ
 					);
+
+					GameObject light = Instantiate (Resources.Load ("Prefabs/Light") as GameObject);
+					light.transform.parent = levelHolder.transform;
+					light.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos + 3f,
+						zPos + offsetZ
+					);
 				}
 
 				if (line [xPos] == '|') { 

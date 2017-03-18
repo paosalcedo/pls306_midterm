@@ -5,7 +5,7 @@ using UnityEngine;
 public class RocketLauncher : MonoBehaviour {
 
 	public float explosionRadius = 20.0f;
-	public float explosionPower = 300f;
+	public float explosionPower = 20f;
 	// Use this for initialization
 	void Start () {
 		
@@ -32,15 +32,14 @@ public class RocketLauncher : MonoBehaviour {
 				Collider[] colliders = Physics.OverlapSphere (rayHit.point, explosionRadius);
 				foreach (Collider hit in colliders) {
 					Rigidbody rb = hit.GetComponent<Rigidbody> ();
-					if (rb != null) {
-						rb.AddExplosionForce (explosionPower, rayHit.point, explosionRadius, 0, ForceMode.Impulse);
 
-					}
+					//apply explosion force on other objects.
+					//apply explosion force on player.
 					if(rb.tag == "Player"){
 						Vector3 tossDir;
 						tossDir = rb.transform.position - rayHit.point;
 						Debug.Log ("player within explosion!");
-						rb.AddForce (tossDir, ForceMode.VelocityChange);
+						rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);							
 					}
 				}
 			}
