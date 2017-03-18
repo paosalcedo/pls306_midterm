@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CeilingMover : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
+	[SerializeField] float moveSpeed;
+
 	void Update () {
-		
+		Move ();
 	}
+
+	private void Move()
+	{
+		transform.Translate (Vector3.back * moveSpeed * Time.deltaTime);		
+	}
+
+
 }
