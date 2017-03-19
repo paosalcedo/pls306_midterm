@@ -13,7 +13,7 @@ public class FPSController : MonoBehaviour {
 //	public bool canJump = true;
 	public float jumpHeight = 2.0f;
 	private bool grounded = false;
-	float initHeight;
+//	float initHeight;
 
 
 	Rigidbody rb;
@@ -47,11 +47,7 @@ public class FPSController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		Debug.Log (rb.velocity.y);
-//		CheckFallDeath ();
 		MovePlayer ();
-
-
 
 //		**** ORIGINAL FPS CONTROLLER MOVE CODE***
 //		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
@@ -107,7 +103,7 @@ public class FPSController : MonoBehaviour {
 		//jump
 		if (grounded == true && Input.GetButtonDown("Jump")) {
 			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
-			initHeight = rb.transform.position.y;
+//			initHeight = rb.transform.position.y;
 			//	rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
 		}
 
@@ -163,18 +159,18 @@ public class FPSController : MonoBehaviour {
 	void OnCollisionExit(Collision coll){
 		grounded = false;
 		if (coll.gameObject.tag == "ground") {
-			initHeight = transform.position.y;
+//			initHeight = transform.position.y;
 		}
 	}
 
-	void CheckFallDeath(){
-		//assign last velocity to a variable.
-		if (rb.velocity.y < maxFallVelocity && grounded == true) {
-			Destroy (gameObject);
-			Invoke ("DelayedRestart", 3f);
-			Debug.Log ("GAME OVER!");
-		}	
-	}
+//	void CheckFallDeath(){
+//		//assign last velocity to a variable.
+//		if (rb.velocity.y < maxFallVelocity && grounded == true) {
+//			Destroy (gameObject);
+//			Invoke ("DelayedRestart", 3f);
+//			Debug.Log ("GAME OVER!");
+//		}	
+//	}
 
 
 	void SendDeathMessage(){

@@ -10,6 +10,9 @@ public class LevelLoader : MonoBehaviour {
 	GameObject[] enemies;
 	public float offsetX = 0;
 	public float offsetZ = 0;
+	public float coinOffsetY;
+	public float lightOffsetY;
+	
 	public float tileZ;
 
 	public string[] fileNames;
@@ -53,7 +56,7 @@ public class LevelLoader : MonoBehaviour {
 						);
 				}
 			
-				//Instantiate player1
+				//Instantiate Player
 				if (line [xPos] == 'p') { 
 					GameObject player = Instantiate (Resources.Load ("Prefabs/Player") as GameObject);
 					player.transform.position = new Vector3 (
@@ -74,6 +77,7 @@ public class LevelLoader : MonoBehaviour {
 					);
 				}
 
+				//Instantiate lights.
 				if (line [xPos] == '*') {
 					GameObject platform = Instantiate (Resources.Load ("Prefabs/Platform") as GameObject);
 					platform.transform.parent = levelHolder.transform;
@@ -87,7 +91,34 @@ public class LevelLoader : MonoBehaviour {
 					light.transform.parent = levelHolder.transform;
 					light.transform.position = new Vector3 (
 						xPos + offsetX, 
-						yPos + 5f,
+						yPos + lightOffsetY,
+						zPos + offsetZ
+					);
+				}
+
+				//Instantiate coins
+				if (line [xPos] == 'c') {
+					GameObject platform = Instantiate (Resources.Load ("Prefabs/Platform") as GameObject);
+					platform.transform.parent = levelHolder.transform;
+					platform.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos,
+						zPos + offsetZ
+					);
+
+					GameObject light = Instantiate (Resources.Load ("Prefabs/Light") as GameObject);
+					light.transform.parent = levelHolder.transform;
+					light.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos + lightOffsetY,
+						zPos + offsetZ
+					);
+
+					GameObject coin = Instantiate (Resources.Load ("Prefabs/Coin") as GameObject);
+					coin.transform.parent = levelHolder.transform;
+					coin.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos + coinOffsetY,
 						zPos + offsetZ
 					);
 				}
@@ -106,7 +137,7 @@ public class LevelLoader : MonoBehaviour {
 					light.transform.parent = levelHolder.transform;
 					light.transform.position = new Vector3 (
 						xPos + offsetX, 
-						yPos + 3f,
+						yPos + lightOffsetY,
 						zPos + offsetZ
 					);
 				}

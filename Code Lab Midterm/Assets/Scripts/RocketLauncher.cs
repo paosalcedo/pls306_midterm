@@ -17,7 +17,8 @@ public class RocketLauncher : MonoBehaviour {
 			ShootRay ();
 		}
 	}
-	void ShootRay(){
+	void ShootRay ()
+	{
 
 		//1. declare your raycast 
 		Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward);
@@ -31,14 +32,16 @@ public class RocketLauncher : MonoBehaviour {
 			if (rayHit.transform.tag == "Ground" && rayHit.rigidbody != null || rayHit.transform.tag == "Wall" && rayHit.rigidbody != null) {
 				Collider[] colliders = Physics.OverlapSphere (rayHit.point, explosionRadius);
 				foreach (Collider hit in colliders) {
-					Rigidbody rb = hit.GetComponent<Rigidbody> ();
+					if (hit.tag != "Coin") {
+						Rigidbody rb = hit.GetComponent<Rigidbody> ();
 
-					//apply explosion force on other objects.
-					//apply explosion force on player.
-					if(rb.tag == "Player"){
-						Vector3 tossDir;
-						tossDir = rb.transform.position - rayHit.point;
-						rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);							
+						//apply explosion force on other objects.
+						//apply explosion force on player.
+						if (rb.tag == "Player") {
+							Vector3 tossDir;
+							tossDir = rb.transform.position - rayHit.point;
+							rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);							
+						}
 					}
 				}
 			}

@@ -13,6 +13,7 @@ public class CollisionScript : MonoBehaviour {
 
 	void DelayedRestart()
 	{
+		ScoreKeeper.instance.Score = 0;
 		SceneManager.LoadScene ("first");
 	}
 }
