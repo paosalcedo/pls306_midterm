@@ -47,7 +47,7 @@ public class FPSController : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-//		Debug.Log (rb.velocity.y);
+		Debug.Log (rb.velocity.y);
 //		CheckFallDeath ();
 		MovePlayer ();
 
@@ -79,19 +79,6 @@ public class FPSController : MonoBehaviour {
 
 	
 	}
-
-
-	void OnCollisionStay (Collision coll) {
-		if (coll.collider.tag == "Ground") {
-			grounded = true;
-		}
-	}
-
-
-	void OnCollisionExit(Collision coll){
-		grounded = false;
-	}
-
 
 
 	float CalculateJumpVerticalSpeed () {
@@ -135,38 +122,62 @@ public class FPSController : MonoBehaviour {
 		//		grounded = false;
 
 	}
+		
 
-
-	void OnCollisionEnter(Collision coll){
-		//Kills player when jumping from too high.
-		if (coll.gameObject.tag == "Ground") {
-			float finalHeight;
-			finalHeight = transform.position.y;
-			Debug.Log (initHeight);
-			if ((initHeight - finalHeight) > fallDeathHeight) {
-				Destroy (gameObject);
-				Invoke ("DelayedRestart", 3f);
-				Debug.Log ("GAME OVER!");
-			}
-		}
-		//		if (rb.velocity.y < maxFallVelocity) {
+//	void OnCollisionEnter(Collision coll){
+////1. Kills player when jumping from too high. Uses change in transform.position. Kinda buggy, not consistent.
+////		if (coll.gameObject.tag == "Ground") {
+////			float finalHeight;
+////			finalHeight = transform.position.y;
+////			Debug.Log (initHeight);
+////			if ((initHeight - finalHeight) > fallDeathHeight) {
+////				SendDeathMessage ();
+////				Destroy (gameObject);
+////				Debug.Log ("GAME OVER!");
+////			}
+////		}
+//
+////2. This second, but failed version attempted to use rb.velocity.
+//		if (rb.velocity.y < maxFallVelocity) {
 //			Destroy (gameObject);
-//			Invoke ("DelayedRestart", 3f);
-//			Debug.Log ("GAME OVER!");
-//		}	
-	}
-
-//	void CheckFallDeath(){
-//		//assign last velocity to a variable.
-//		if (rb.velocity.y < maxFallVelocity && grounded == true) {
-//			Destroy (gameObject);
-//			Invoke ("DelayedRestart", 3f);
-//			Debug.Log ("GAME OVER!");
+//			SendDeathMessage ();
+//			Debug.Log ("DON'T FALL THAT FAST!");
 //		}	
 //	}
 
+	void OnTriggerEnter(Collider coll){
+		if (coll.tag == "Ground" && rb.velocity.y < maxFallVelocity) {
+			Destroy (gameObject);
+			SendDeathMessage ();
+			Debug.Log ("DON'T FALL THAT FAST!");
+		}
+	}
 
-	void DelayedRestart(){
+	void OnCollisionStay (Collision coll) {
+		if (coll.collider.tag == "Ground") {
+			grounded = true;
+		}
+	}
+
+
+	void OnCollisionExit(Collision coll){
+		grounded = false;
+		if (coll.gameObject.tag == "ground") {
+			initHeight = transform.position.y;
+		}
+	}
+
+	void CheckFallDeath(){
+		//assign last velocity to a variable.
+		if (rb.velocity.y < maxFallVelocity && grounded == true) {
+			Destroy (gameObject);
+			Invoke ("DelayedRestart", 3f);
+			Debug.Log ("GAME OVER!");
+		}	
+	}
+
+
+	void SendDeathMessage(){
 		GameObject gameManager = GameObject.Find("Game Manager");
 		gameManager.SendMessage ("PlayerIsDead");
 	}

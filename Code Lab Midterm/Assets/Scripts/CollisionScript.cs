@@ -7,7 +7,12 @@ public class CollisionScript : MonoBehaviour {
 
 	// Use this for initialization
 	void PlayerIsDead(){
-		Debug.Log ("Game Over!");
+		Debug.Log ("Message received! Player is dead, we hear!");
+		Invoke ("DelayedRestart", 3f);
+	}
+
+	void DelayedRestart()
+	{
 		SceneManager.LoadScene ("first");
 	}
 }
