@@ -196,29 +196,30 @@ public class FPSController : MonoBehaviour {
 		gameManager.SendMessage ("PlayerIsDead");
 	}
 
- 	bool soundPlayed;
+//attempt to fix landing sound issue.
+// 	bool soundPlayed;
 
-	void CheckIfGrounded ()
-	{
-
-		//1. declare your raycast 
-		Ray ray = new Ray (Camera.main.transform.position, -Camera.main.transform.up);
-		//2. set up our raycast hit info variable too 
-
-		RaycastHit rayHit = new RaycastHit ();
-
-		//3. we're ready to shoot our raycast
-
-		if (Physics.Raycast (ray, out rayHit, 2f)) {
-			if (rayHit.transform.tag == "Ground") {
-				GameObject land = GameObject.Find ("LandSoundHolder");
-				AudioSource landAudio = land.GetComponent<AudioSource> ();
-				if (!landAudio.isPlaying && soundPlayed == false) {
-					landAudio.Play ();
-					soundPlayed = true;
-				}
-			}
-		}
-	}
+//	void CheckIfGrounded ()
+//	{
+//
+//		//1. declare your raycast 
+//		Ray ray = new Ray (Camera.main.transform.position, -Camera.main.transform.up);
+//		//2. set up our raycast hit info variable too 
+//
+//		RaycastHit rayHit = new RaycastHit ();
+//
+//		//3. we're ready to shoot our raycast
+//
+//		if (Physics.Raycast (ray, out rayHit, 0.1f)) {
+//			if (rayHit.transform.tag == "Ground") {
+//				GameObject land = GameObject.Find ("LandSoundHolder");
+//				AudioSource landAudio = land.GetComponent<AudioSource> ();
+//				if (!landAudio.isPlaying) {
+//					landAudio.Play ();
+////					soundPlayed = true;
+//				}
+//			} 
+//		}
+//	}
 		
 }
