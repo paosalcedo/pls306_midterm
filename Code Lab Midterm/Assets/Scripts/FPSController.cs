@@ -30,6 +30,7 @@ public class FPSController : MonoBehaviour {
 //	public float verticalVelocity;
 //
 	void Start () {
+		soundPlayed = false;
 		Cursor.lockState = CursorLockMode.Locked;
 		rb = GetComponent<Rigidbody> ();
 
@@ -48,8 +49,10 @@ public class FPSController : MonoBehaviour {
 	void FixedUpdate()
 	{
 		MovePlayer ();
-
-//		**** ORIGINAL FPS CONTROLLER MOVE CODE***
+		PlayFallSound();
+		CheckIfGrounded();
+	}
+//		**** ORIGINAL FPS CONTROLLER MOVE CODE (place this in FixedUpdate()***
 //		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
 //		if (grounded == true) {
 			// Calculate how fast we should be moving
@@ -74,8 +77,6 @@ public class FPSController : MonoBehaviour {
 //		}
 
 	
-	}
-
 
 	float CalculateJumpVerticalSpeed () {
 		// From the jump height and gravity we deduce the upwards speed 
@@ -103,8 +104,10 @@ public class FPSController : MonoBehaviour {
 		//jump
 		if (grounded == true && Input.GetButtonDown("Jump")) {
 			rb.velocity = new Vector3 (velocity.x, CalculateJumpVerticalSpeed (), velocity.z);
-//			initHeight = rb.transform.position.y;
-			//	rb.velocity = new Vector3 (velocity.x, velocity.y + jumpHeight, velocity.z);
+			// play the jump sound.
+			AudioSource jump;
+			jump = GetComponent<AudioSource>();
+			jump.Play();
 		}
 
 		//tweaking air control when jumping.
@@ -118,6 +121,8 @@ public class FPSController : MonoBehaviour {
 		//		grounded = false;
 
 	}
+
+	
 		
 
 //	void OnCollisionEnter(Collision coll){
@@ -141,6 +146,19 @@ public class FPSController : MonoBehaviour {
 //		}	
 //	}
 
+//Kills the player on impact if falling velocity is greater than user-determined maximum.
+	
+
+	void PlayFallSound ()
+	{
+		if (rb.velocity.y < maxFallVelocity) {
+			GameObject scream = GameObject.Find("ScreamSoundHolder");
+			scream.SendMessage("PlaySound");
+		}
+	}
+
+
+
 	void OnTriggerEnter(Collider coll){
 		if (coll.tag == "Ground" && rb.velocity.y < maxFallVelocity) {
 			Destroy (gameObject);
@@ -149,12 +167,12 @@ public class FPSController : MonoBehaviour {
 		}
 	}
 
+
 	void OnCollisionStay (Collision coll) {
 		if (coll.collider.tag == "Ground") {
 			grounded = true;
 		}
 	}
-
 
 	void OnCollisionExit(Collision coll){
 		grounded = false;
@@ -176,6 +194,31 @@ public class FPSController : MonoBehaviour {
 	void SendDeathMessage(){
 		GameObject gameManager = GameObject.Find("Game Manager");
 		gameManager.SendMessage ("PlayerIsDead");
+	}
+
+ 	bool soundPlayed;
+
+	void CheckIfGrounded ()
+	{
+
+		//1. declare your raycast 
+		Ray ray = new Ray (Camera.main.transform.position, -Camera.main.transform.up);
+		//2. set up our raycast hit info variable too 
+
+		RaycastHit rayHit = new RaycastHit ();
+
+		//3. we're ready to shoot our raycast
+
+		if (Physics.Raycast (ray, out rayHit, 2f)) {
+			if (rayHit.transform.tag == "Ground") {
+				GameObject land = GameObject.Find ("LandSoundHolder");
+				AudioSource landAudio = land.GetComponent<AudioSource> ();
+				if (!landAudio.isPlaying && soundPlayed == false) {
+					landAudio.Play ();
+					soundPlayed = true;
+				}
+			}
+		}
 	}
 		
 }

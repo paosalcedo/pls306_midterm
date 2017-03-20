@@ -6,6 +6,8 @@ public class RocketLauncher : MonoBehaviour {
 
 	public float explosionRadius = 20.0f;
 	public float explosionPower = 20f;
+	public float raycastRange;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -14,7 +16,7 @@ public class RocketLauncher : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetMouseButtonDown(0)){
-			ShootRay ();
+			ShootRay ();	
 		}
 	}
 	void ShootRay ()
@@ -28,19 +30,21 @@ public class RocketLauncher : MonoBehaviour {
 
 		//3. we're ready to shoot our raycast
 
-		if (Physics.Raycast (ray, out rayHit, 100f)) {
+		if (Physics.Raycast (ray, out rayHit, raycastRange)) {
 			if (rayHit.transform.tag == "Ground" && rayHit.rigidbody != null || rayHit.transform.tag == "Wall" && rayHit.rigidbody != null) {
 				Collider[] colliders = Physics.OverlapSphere (rayHit.point, explosionRadius);
 				foreach (Collider hit in colliders) {
 					if (hit.tag != "Coin") {
 						Rigidbody rb = hit.GetComponent<Rigidbody> ();
 
-						//apply explosion force on other objects.
 						//apply explosion force on player.
 						if (rb.tag == "Player") {
 							Vector3 tossDir;
 							tossDir = rb.transform.position - rayHit.point;
-							rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);							
+							rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);
+							AudioSource boing;
+							boing = GetComponent<AudioSource>();
+							boing.Play();							
 						}
 					}
 				}
