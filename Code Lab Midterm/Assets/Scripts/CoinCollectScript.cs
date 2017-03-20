@@ -19,8 +19,19 @@ public class CoinCollectScript : MonoBehaviour {
 		if (coll.tag == "Player") {
 			//Add to score.
 			ScoreKeeper.instance.Score += 1;
-			Debug.Log(ScoreKeeper.instance.Score);
-			Destroy(gameObject);
+			Debug.Log (ScoreKeeper.instance.Score);
+			AudioSource pickupSound;
+			pickupSound = GetComponent<AudioSource> ();
+			
+			if (pickupSound.isPlaying == false) {
+				pickupSound.Play ();
+			}
+			
+			this.GetComponent<MeshRenderer>().enabled = false;
+			this.GetComponent<Collider>().enabled = false;	
+
+			//play sound.
+			
 		}
 	}
 }
