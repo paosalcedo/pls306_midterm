@@ -30,7 +30,7 @@ public class FPSController : MonoBehaviour {
 //	public float verticalVelocity;
 //
 	void Start () {
-		soundPlayed = false;
+//		soundPlayed = false;
 		Cursor.lockState = CursorLockMode.Locked;
 		rb = GetComponent<Rigidbody> ();
 
@@ -50,7 +50,7 @@ public class FPSController : MonoBehaviour {
 	{
 		MovePlayer ();
 		PlayFallSound();
-		CheckIfGrounded();
+//		CheckIfGrounded();
 	}
 //		**** ORIGINAL FPS CONTROLLER MOVE CODE (place this in FixedUpdate()***
 //		if (grounded == true || grounded == false) { // first option lets you move in the air, but also gives jetpack effect.
@@ -157,13 +157,15 @@ public class FPSController : MonoBehaviour {
 		}
 	}
 
-
-
+	public bool canFallToDeath;
+//kills player when falling too fast. 
 	void OnTriggerEnter(Collider coll){
-		if (coll.tag == "Ground" && rb.velocity.y < maxFallVelocity) {
+		if (canFallToDeath == true && coll.tag == "Ground" && rb.velocity.y < maxFallVelocity) {
 			Destroy (gameObject);
 			SendDeathMessage ();
 			Debug.Log ("DON'T FALL THAT FAST!");
+			GameObject scream = GameObject.Find("ScreamSoundHolder");
+			scream.SendMessage("PlaySound");
 		}
 	}
 
