@@ -77,7 +77,7 @@ public class LevelLoader : MonoBehaviour {
 					);
 				}
 
-				//Instantiate lights.
+				//Instantiate lights with platform.
 				if (line [xPos] == '*') {
 					GameObject platform = Instantiate (Resources.Load ("Prefabs/Platform") as GameObject);
 					platform.transform.parent = levelHolder.transform;
@@ -95,6 +95,17 @@ public class LevelLoader : MonoBehaviour {
 						zPos + offsetZ
 					);
 				}
+
+				if (line [xPos] == '^') {
+					GameObject light = Instantiate (Resources.Load ("Prefabs/Light") as GameObject);
+					light.transform.parent = levelHolder.transform;
+					light.transform.position = new Vector3 (
+						xPos + offsetX, 
+						yPos + lightOffsetY,
+						zPos + offsetZ
+					);
+				}
+				
 
 				//Instantiate coins
 				if (line [xPos] == 'c') {
