@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GateOpenScript : MonoBehaviour {
 	int startScore;
-	[SerializeField]private const int SCORE_TO_WIN = 10;
+	public const int SCORE_TO_WIN = 8;
 	// Use this for initialization
 	void Start () {
 		startScore = ScoreKeeper.instance.Score;
@@ -17,7 +17,7 @@ public class GateOpenScript : MonoBehaviour {
 	
 	void OpenGate ()
 	{
-		if (ScoreKeeper.instance.Score - startScore > SCORE_TO_WIN) {
+		if (ScoreKeeper.instance.Score - startScore >= SCORE_TO_WIN) {
 			Debug.Log("CONGRATS! Gate opening!");
 			Destroy(gameObject);
 		}

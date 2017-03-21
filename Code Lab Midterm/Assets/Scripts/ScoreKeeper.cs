@@ -44,9 +44,10 @@ public class ScoreKeeper : MonoBehaviour {
 		if (instance == null) {
 			instance = this;
 			DontDestroyOnLoad (this);
+			score = 0;
 		} else {
 			Destroy(gameObject);
-		}
+		}		
 	}
 	
 	// Update is called once per frame

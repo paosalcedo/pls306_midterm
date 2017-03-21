@@ -22,16 +22,16 @@ public class CoinCollectScript : MonoBehaviour {
 			Debug.Log (ScoreKeeper.instance.Score);
 			AudioSource pickupSound;
 			pickupSound = GetComponent<AudioSource> ();
+
+			//play sound.
 			
 			if (pickupSound.isPlaying == false) {
 				pickupSound.Play ();
 			}
-			
-			this.GetComponent<MeshRenderer>().enabled = false;
-			this.GetComponent<Collider>().enabled = false;	
 
-			//play sound.
-			
+			//disable mesh and collider to simulate pickup.						
+			this.GetComponent<MeshRenderer>().enabled = false;
+			this.GetComponent<Collider>().enabled = false;		
 		}
 	}
 }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class CoinRotateScript : MonoBehaviour {
 	Vector3 coinPos;
 	public float rotateSpeed = 10f;
-	public float floatSpeed = 1f;
-	public float coinOffSetY = 0.1f;
+	public float floatSpeed = 0.1f;
+	public float coinOffSetY = 0.25f;
 	// Use this for initialization
 	void Start () {
 		coinPos = transform.position;
@@ -24,8 +24,8 @@ public class CoinRotateScript : MonoBehaviour {
 
 	void FloatCoin ()
 	{
-		transform.Translate (Vector3.forward * floatSpeed * Time.deltaTime);
-
+//		transform.Translate (Vector3.forward * floatSpeed * Time.deltaTime);
+		transform.position = new Vector3 (transform.position.x, transform.position.y + floatSpeed * Time.deltaTime, transform.position.z);
 		if (transform.position.y > coinPos.y + coinOffSetY || transform.position.y < coinPos.y - coinOffSetY) {
 			floatSpeed *= -1;	
 		}
