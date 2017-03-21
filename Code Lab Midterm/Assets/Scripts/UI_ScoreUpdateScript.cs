@@ -18,6 +18,6 @@ public class UI_ScoreUpdateScript : MonoBehaviour {
 	}
 
 	void ShowText(){
-		scoreText.text = ScoreKeeper.instance.Score.ToString ("Coins to open gate: " + "#" + "/" + GateOpenScript.SCORE_TO_WIN);
+		scoreText.text = ScoreKeeper.instance.Score.ToString("Coins to open gate: " + "#" + "/" + GateOpenScript.SCORE_TO_WIN);
 	}
 }

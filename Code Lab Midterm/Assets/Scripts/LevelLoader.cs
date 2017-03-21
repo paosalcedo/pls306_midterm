@@ -167,13 +167,16 @@ public class LevelLoader : MonoBehaviour {
 	}
 
 
+	float timeAtEndOfLevel;
 
 	// Update is called once per frame
 	void Update () {
+
 	}
 
 	void LoadNextLevel(){
 		levelNum++;
+		ScoreKeeper.instance.Score = 0;
 		SceneManager.LoadScene("first");
 	}
 //

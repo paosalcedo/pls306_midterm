@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class UI_StopwatchScript : MonoBehaviour {
 
 	public Text stopwatchText;
-
-	float timeElapsed;
+	
+	public float timeElapsed;
 	// Use this for initialization
 	void Start () {
-		
+	
 	}
 	
 	// Update is called once per frame
@@ -20,10 +20,14 @@ public class UI_StopwatchScript : MonoBehaviour {
 	}
 
 	void ShowTimer(){
-		stopwatchText.text = timeElapsed.ToString ("Time Elapsed: " + "##");
+//		stopwatchText.text = timeElapsed.ToString ("Time Elapsed: " + "##");
+		stopwatchText.text = TimeKeeper.instance.Timer.ToString("Time Elapsed: " + "##");
 	}
 
 	void GetStopwatch(){
-		timeElapsed += Time.deltaTime;
+		//timeElapsed += Time.deltaTime;
+		TimeKeeper.instance.Timer += Time.deltaTime;
 	}
+
+	
 }

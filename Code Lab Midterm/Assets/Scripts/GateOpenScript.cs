@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GateOpenScript : MonoBehaviour {
-	int startScore;
+	public int startScore;
 	public const int SCORE_TO_WIN = 8;
 	// Use this for initialization
 	void Start () {
