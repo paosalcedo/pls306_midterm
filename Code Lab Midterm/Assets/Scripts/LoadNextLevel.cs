@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LoadNextLevel : MonoBehaviour {
 
+	string yourTime;
 	public float delay = 3.0f;
-	public float keepTime;
 	public static LoadNextLevel instance;
 
 	// Use this for initialization
@@ -19,11 +19,18 @@ public class LoadNextLevel : MonoBehaviour {
 
 	void OnTriggerExit(Collider coll){
 		if (coll.tag == "Player") {
+			yourTime = TimeKeeper.instance.Timer.ToString("You finished the game in " + "##" + " seconds!");
 			Invoke ("SendLoadMessage", delay);
 		}
 	}
 
-	void SendLoadMessage(){
-		GameObject.Find ("Level Holder").SendMessage ("LoadNextLevel");
+	void SendLoadMessage ()
+	{
+		if (LevelLoader.levelNum < 1) {
+			GameObject.Find ("Level Holder").SendMessage ("LoadNextLevel");
+		} else {
+			UtilScript.WriteStringToFile(Application.dataPath, "best_times.txt", yourTime);
+			
+		}
 	}
 }
