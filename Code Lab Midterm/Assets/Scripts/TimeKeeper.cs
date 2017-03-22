@@ -6,21 +6,42 @@ public class TimeKeeper : MonoBehaviour {
 
 	private float timer;
 
+	private const string PREF_BEST_TIME = "bestTimePref";
+
 	public float Timer {
-		get{ 
+		get { 
 			return timer;
 		}
-		set{ 
+		set { 
 			timer = value;
+	
+			if (timer < BestTime) {
+				BestTime = timer;
+				UtilScript.WriteStringToFile(Application.dataPath, "best_times.txt", BestTime.ToString("##" + "|"));
+			}   
 		}
 	}
+
+	private float bestTime = 100f;
+
+	public float BestTime {
+		get{ 
+			bestTime = PlayerPrefs.GetInt(PREF_BEST_TIME);
+			return bestTime;
+		}
+		set{ 
+			bestTime = value;
+			PlayerPrefs.SetFloat(PREF_BEST_TIME, bestTime);	
+		}
+	}
+
 
 	public static TimeKeeper instance;
 
 	// Use this for initialization
 	void Start ()
 	{
-		if (instance == null) {
+ 		if (instance == null) {
 			instance = this;
 			DontDestroyOnLoad (this);
 		} else {

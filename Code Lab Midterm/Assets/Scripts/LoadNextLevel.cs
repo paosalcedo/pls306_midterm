@@ -5,6 +5,7 @@ using UnityEngine;
 public class LoadNextLevel : MonoBehaviour {
 
 	string yourTime;
+	float floatYourTime;
 	public float delay = 3.0f;
 	public static LoadNextLevel instance;
 
@@ -19,7 +20,10 @@ public class LoadNextLevel : MonoBehaviour {
 
 	void OnTriggerExit(Collider coll){
 		if (coll.tag == "Player") {
-			yourTime = TimeKeeper.instance.Timer.ToString("You finished the game in " + "##" + " seconds!");
+			//saves finish time as string.
+			yourTime = TimeKeeper.instance.Timer.ToString("##" + "|");
+			//Saves finish time as float.
+			floatYourTime = TimeKeeper.instance.Timer;    
 			Invoke ("SendLoadMessage", delay);
 		}
 	}

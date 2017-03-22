@@ -12,7 +12,7 @@ public class UtilScript : MonoBehaviour {
 	}
 
 	public static void WriteStringToFile (string path, string fileName, string content){
-		StreamWriter sw = new StreamWriter (path + "/" + fileName);
+		StreamWriter sw = new StreamWriter (path + "/" + fileName, true);
 		
 		sw.Write(content);
 
@@ -51,4 +51,5 @@ public class UtilScript : MonoBehaviour {
 
 		return result;
 	}
+
 }

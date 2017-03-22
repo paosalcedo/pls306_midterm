@@ -18,8 +18,7 @@ public class GateOpenScript : MonoBehaviour {
 	void OpenGate ()
 	{
 		if (ScoreKeeper.instance.Score - startScore >= SCORE_TO_WIN) {
-			Debug.Log("CONGRATS! Gate opening!");
-			Destroy(gameObject);
+ 			Destroy(gameObject);
 		}
 	}
 }

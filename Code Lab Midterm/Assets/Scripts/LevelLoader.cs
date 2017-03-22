@@ -178,7 +178,6 @@ public class LevelLoader : MonoBehaviour {
 
 	}
 
-	bool GameOver;
 	void LoadNextLevel ()
 	{
 		levelNum++;
@@ -187,12 +186,6 @@ public class LevelLoader : MonoBehaviour {
 
 	}
 
-	void GameOverCheck ()
-	{
-		if (GameOver == true) {
-			levelNum = 0;
-		}
-	}
 //
 //	void EndLevel ()
 //	{
