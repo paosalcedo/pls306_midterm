@@ -18,8 +18,8 @@ public class CeilingLethality : MonoBehaviour {
 		if(hit.gameObject.tag == "Player"){
 			GameObject gameManager = GameObject.Find("Game Manager");
 			GameObject.Find("ScreamSoundHolder").GetComponent<AudioSource>().Play();
+			Destroy(hit.gameObject);
 			gameManager.SendMessage ("PlayerIsDead");
-			
 		}
 	}
 }

@@ -19,7 +19,7 @@ public class CoinCollectScript : MonoBehaviour {
 		if (coll.tag == "Player") {
 			//Add to score.
 			ScoreKeeper.instance.Score += 1;
-			Debug.Log (ScoreKeeper.instance.Score);
+//			Debug.Log (ScoreKeeper.instance.Score);
 			AudioSource pickupSound;
 			pickupSound = GetComponent<AudioSource> ();
 

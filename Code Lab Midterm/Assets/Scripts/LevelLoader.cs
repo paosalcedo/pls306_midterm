@@ -20,7 +20,11 @@ public class LevelLoader : MonoBehaviour {
 
 	// Use this for initialization
 	void Start ()
-	{
+	{	
+
+//		GameOverCheck();
+		Debug.Log("Lives left: " + LivesKeeper.instance.Lives);
+		
 		//looking for all enemies.
 //		enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
@@ -174,10 +178,20 @@ public class LevelLoader : MonoBehaviour {
 
 	}
 
-	void LoadNextLevel(){
+	bool GameOver;
+	void LoadNextLevel ()
+	{
 		levelNum++;
 		ScoreKeeper.instance.Score = 0;
-		SceneManager.LoadScene("first");
+		SceneManager.LoadScene ("first");
+
+	}
+
+	void GameOverCheck ()
+	{
+		if (GameOver == true) {
+			levelNum = 0;
+		}
 	}
 //
 //	void EndLevel ()

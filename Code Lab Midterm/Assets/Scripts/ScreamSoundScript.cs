@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ScreamSoundScript : MonoBehaviour {
 	// Use this for initialization
+	AudioSource scream;
+
 	void Start () {
-		
+		scream = GetComponent<AudioSource> ();
+
 	}
 	
 	// Update is called once per frame
@@ -15,9 +18,6 @@ public class ScreamSoundScript : MonoBehaviour {
 
 	void PlaySound ()
 	{
-		Debug.Log ("Playing SCREAM NOW!");
-		AudioSource scream;
-		scream = GetComponent<AudioSource> ();
 		if (!scream.isPlaying) {
 			scream.Play ();
 		}
