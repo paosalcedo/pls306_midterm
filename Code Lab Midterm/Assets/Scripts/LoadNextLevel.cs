@@ -8,6 +8,8 @@ public class LoadNextLevel : MonoBehaviour {
 	float floatYourTime;
 	public float delay = 3.0f;
 	public static LoadNextLevel instance;
+//	public List<
+
 
 	// Use this for initialization
 	void Start () {

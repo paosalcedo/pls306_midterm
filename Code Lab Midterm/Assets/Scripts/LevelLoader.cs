@@ -23,7 +23,7 @@ public class LevelLoader : MonoBehaviour {
 	{	
 
 //		GameOverCheck();
-		Debug.Log("Lives left: " + LivesKeeper.instance.Lives);
+//		Debug.Log("Lives left: " + LivesKeeper.instance.Lives);
 		
 		//looking for all enemies.
 //		enemies = GameObject.FindGameObjectsWithTag("Enemy");

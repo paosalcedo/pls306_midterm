@@ -4,27 +4,44 @@ using UnityEngine;
 
 public class RocketLauncher : MonoBehaviour {
 
+	AudioSource boing;
 	public float explosionRadius = 20.0f;
 	public float explosionPower = 20f;
 	public float raycastRange = 20f;
 	public float grappleRange = 20.0f;
 	public float grappleRadius = 20.0f;
-
+	GameObject[] rocketModels;
 	// Use this for initialization
 	void Start () {
-		
+		boing = GetComponent<AudioSource> ();
+		rocketModels = GameObject.FindGameObjectsWithTag ("Rocket");
+//		foreach (GameObject rocketModel in rocketModels) {
+//			rocketModel.GetComponent<RopeRenderer>().enabled = false;
+//		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		if (Input.GetMouseButtonDown (0)) {
-			ShootRay ();	
-		}
+			ShootRay ();
+//			foreach (GameObject rocketModel in rocketModels) {
+//				rocketModel.GetComponent<RopeRenderer>().enabled = true;
+//			}
+		} 
+
+//		if (!boing.isPlaying){
+//			foreach (GameObject rocketModel in rocketModels) {
+//				rocketModel.GetComponent<RopeRenderer>().enabled = false;
+//			}
+//			foreach (GameObject rocketModel in rocketModels) {
+//				rocketModel.GetComponent<RopeRenderer>().enabled = false;
+//			}
+//		}
 		
-		if (Input.GetMouseButtonDown (1)) {
-			ShootGrapple();
-		}
+//		if (Input.GetMouseButtonDown (1)) {
+//			ShootGrapple();
+//		}
 	}
 
 	void ShootRay ()
@@ -40,7 +57,7 @@ public class RocketLauncher : MonoBehaviour {
 
 		if (Physics.Raycast (ray, out rayHit, raycastRange)) {
 			if (rayHit.transform.tag == "Ground" && rayHit.rigidbody != null /*|| rayHit.transform.tag == "Wall" && rayHit.rigidbody != null*/) {
-				Debug.Log(rayHit.transform.name);
+				Debug.Log (rayHit.transform.name);
 				Collider[] colliders = Physics.OverlapSphere (rayHit.point, explosionRadius);
 				foreach (Collider hit in colliders) {
 					if (hit.tag != "Coin") {
@@ -51,14 +68,14 @@ public class RocketLauncher : MonoBehaviour {
 							Vector3 tossDir;
 							tossDir = rb.transform.position - rayHit.point;
 							rb.AddForce (tossDir.normalized * explosionPower, ForceMode.VelocityChange);
-							AudioSource boing;
-							boing = GetComponent<AudioSource>();
-							boing.Play();							
+							boing.Play ();							
 						}
 					}
 				}
 			}
 		}
+		
+		
 	}
 
 	void ShootGrapple ()
